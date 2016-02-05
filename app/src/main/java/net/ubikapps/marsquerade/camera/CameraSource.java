@@ -198,12 +198,12 @@ public class CameraSource {
             return this;
         }
 
-        public Builder setFocusMode(@FocusMode String mode) {
+        public Builder setFocusMode(String mode) {
             mCameraSource.mFocusMode = mode;
             return this;
         }
 
-        public Builder setFlashMode(@FlashMode String mode) {
+        public Builder setFlashMode(String mode) {
             mCameraSource.mFlashMode = mode;
             return this;
         }
@@ -589,7 +589,7 @@ public class CameraSource {
      * @return {@code true} if the flash mode is set, {@code false} otherwise
      * @see #getFlashMode()
      */
-    public boolean setFlashMode(@FlashMode String mode) {
+    public boolean setFlashMode(String mode) {
         synchronized (mCameraLock) {
             if (mCamera != null && mode != null) {
                 Camera.Parameters parameters = mCamera.getParameters();
