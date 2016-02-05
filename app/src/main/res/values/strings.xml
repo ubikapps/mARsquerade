@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mARsquerade</string>
+    <string name="orientation">landscape</string>
+    <string name="ok">OK</string>
+    <string name="choose_eye">Choose eye</string>
+    <string name="action_flash">Flash</string>
+    <string-array name="eyes_array">
+        <item name="left">Left</item>
+        <item name="right">Right</item>
+    </string-array>
+</resources>
