@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mARsquerade</string>
+    <string name="toggle_flash">Toggle flash</string>
+    <string name="take_pic">Take picture</string>
+    <string name="non_square_preview_error">WARNING: this device\'s camera doesn\'t seem to support a suitable square aspect ratio, view may be distorted</string>
 </resources>

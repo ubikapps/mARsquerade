@@ -54,6 +54,7 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
 
     private static final String TAG = "MainActivity";
     private static final int GL_TEXTURE_EXTERNAL_OES = 0x8D65;
+    private static final int PREVIEW_HEIGHT_PERCENT = 84;
     private CameraSource mCameraSource;
     private GraphicOverlay mGraphicOverlay;
     private int mEyeType = Eye.Type.LEFT;
@@ -247,9 +248,11 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
             // download completes on device.
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
+        //Optimal preview size seems to be {@link PREVIEW_HEIGHT_PERCENT}% of cardboard view's height
+        int previewWidthHeight = mCardboardView.getHeight() * PREVIEW_HEIGHT_PERCENT /100;
         mCameraSource = new CameraSource.Builder(context, detector)
                 //Hard coded for Note 4
-                .setRequestedPreviewSize(1088, 1088)
+                .setRequestedPreviewSize(previewWidthHeight, previewWidthHeight)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
                 .setRequestedFps(30.0f)
@@ -397,6 +400,9 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
                 mGraphicOverlay.clear();
                 if(mFlashEnabled) {
                     mCameraSource.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                } else {
+                    mCameraSource.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Unable to start camera source.", e);
@@ -587,10 +593,6 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
         } else {
             return super.onKeyDown(keyCode, keyEvent);
         }
-    }
-
-    public int getEyeType(){
-        return mEyeType;
     }
 
     /**

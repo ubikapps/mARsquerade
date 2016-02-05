@@ -33,10 +33,13 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
+
+import net.ubikapps.marsquerade.R;
 
 import java.io.IOException;
 import java.lang.Thread.State;
@@ -770,7 +773,9 @@ public class CameraSource {
         }
         Size pictureSize = sizePair.pictureSize();
         mPreviewSize = sizePair.previewSize();
-
+        if(mPreviewSize.getWidth() != mPreviewSize.getHeight()){
+            Log.w(TAG, mContext.getString(R.string.non_square_preview_error));
+        }
         int[] previewFpsRange = selectPreviewFpsRange(camera, mRequestedFps);
         if (previewFpsRange == null) {
             throw new RuntimeException("Could not find suitable preview frames per second range.");

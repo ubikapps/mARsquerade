@@ -11,7 +11,8 @@
         android:layout_alignParentLeft="true"
         android:src="@drawable/ic_flash_off_white_36dp"
         android:onClick="toggleFlash"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black"
+        android:contentDescription="@string/toggle_flash"/>
     <ImageButton
         android:id="@+id/takePic"
         android:layout_width="wrap_content"
@@ -19,7 +20,8 @@
         android:layout_toRightOf="@id/flashButton"
         android:src="@drawable/ic_camera_alt_white_36dp"
         android:onClick="takePic"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black"
+        android:contentDescription="@string/take_pic"/>
     <com.google.vrtoolkit.cardboard.CardboardView
         android:id="@+id/cardboard_view"
         android:layout_width="fill_parent"

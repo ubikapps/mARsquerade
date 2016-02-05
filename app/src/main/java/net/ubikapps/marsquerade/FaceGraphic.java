@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.vrtoolkit.cardboard.Eye;
@@ -34,6 +35,7 @@ import net.ubikapps.marsquerade.camera.GraphicOverlay;
  */
 class FaceGraphic extends GraphicOverlay.Graphic {
 
+    private static final String TAG = "FaceGraphic";
     private Bitmap mSadBitmap;
     private Bitmap mHappyBitmap;
     private RectF mRectf;
