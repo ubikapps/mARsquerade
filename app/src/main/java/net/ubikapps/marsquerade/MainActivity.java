@@ -45,7 +45,6 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -57,7 +56,6 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
     private static final int PREVIEW_HEIGHT_PERCENT = 84;
     private CameraSource mCameraSource;
     private GraphicOverlay mGraphicOverlay;
-    private int mEyeType = Eye.Type.LEFT;
     private static final int RC_HANDLE_GMS = 9001;
     private boolean mFlashEnabled = false;
     private boolean mSurfaceCreated = false;
@@ -157,53 +155,6 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
 
     private CardboardView mCardboardView;
     private SurfaceTexture mSurfaceTexture;
-/* Old Camera API before face tracking
-	public void startCamera(int mTexture)
-    {
-        Log.d(TAG, "startCamera");
-        mSurfaceTexture = new SurfaceTexture(mTexture);
-
-        mSurfaceTexture.setOnFrameAvailableListener(this);
-
-        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
-
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-
-        Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, cameraInfo);
-        Log.d(TAG, "Camera orientation: " + cameraInfo.orientation);
-
-        Camera.Parameters parameters = camera.getParameters();
-
-        Log.d(TAG, "Orig prev size: " + parameters.getPreviewSize().width + ", " + parameters.getPreviewSize().height);
-
-        Log.d(TAG, "Size of cardboard view: " + mCardboardView.getWidth() + ", " + mCardboardView.getHeight());
-        //Camera.Size optPreviewSize = getOptimalPreviewSize(camera.getParameters().getSupportedPreviewSizes(), mCardboardView.getWidth() / 2, mCardboardView.getHeight());
-        //Log.d(TAG, "New prev size: " + optPreviewSize.width + ", " + optPreviewSize.height);
-
-        /* Log all preview sizes
-        for (Camera.Size previewSize: camera.getParameters().getSupportedPreviewSizes())
-        {
-            Log.d(TAG, "Preview size: " + previewSize.width + "," +  previewSize.height);
-        }
-        try
-        {
-            //Preview size for Note 4
-            parameters.setPreviewSize(1088, 1088);
-            //parameters.setPreviewSize(optPreviewSize.width, optPreviewSize.height);
-            //parameters.set("orientation", "portrait");
-            //Correct for Note 4
-            parameters.setRotation(90);
-            camera.setParameters(parameters);
-            camera.setDisplayOrientation(90);
-
-            camera.setPreviewTexture(mSurfaceTexture);
-            camera.startPreview();
-        }
-        catch (IOException ioe)
-        {
-            Log.w("MainActivity","CAM LAUNCH FAILED");
-        }
-    }*/
 
     static private int createTexture() {
         int[] textureArr = new int[1];

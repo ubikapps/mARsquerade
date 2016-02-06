@@ -8,3 +8,5 @@ Requires a Google Cardboard and a slightly warped mind.
 WARNING: device may get hot when running this app. I am not responsible for your Google Cardboard or face catching fire.
 
 Android devices that don't support a decent square preview size like the Nexus 5X will get a distorted camera preview.
+
+Based on Google Cardboard example and Face Tracking Google Play Services Vision API example.
