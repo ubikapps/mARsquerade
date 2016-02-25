@@ -44,13 +44,24 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     private volatile Face mFace;
     private int mFaceId;
     private Paint mAntiAliasPaint;
-    private int mEyeType;
+    private int mEyeType = 0;
     private int mCardBoardViewWidth;
 
-    FaceGraphic(Context context, GraphicOverlay overlay, int eyeType, int cardBoardViewWidth) {
+    public FaceGraphic(Context context, GraphicOverlay overlay){
+        super(overlay);
+        setupBitmaps(context);
+    }
+
+    public FaceGraphic(Context context, GraphicOverlay overlay, int eyeType, int cardBoardViewWidth) {
         super(overlay);
         mEyeType = eyeType;
         mCardBoardViewWidth = cardBoardViewWidth;
+        Resources resources =  context.getResources();
+
+        setupBitmaps(context);
+    }
+
+    private void setupBitmaps(Context context){
         Resources resources =  context.getResources();
 
         mHappyBitmap = BitmapFactory.decodeResource(resources, R.drawable.happy);
@@ -109,12 +120,10 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     }
 
     private float getEyeXOffset(){
-        if(mEyeType == Eye.Type.LEFT){
-            return 0.0f;
-        } else  if(mEyeType == Eye.Type.RIGHT){
+        if(mEyeType == Eye.Type.RIGHT){
             return (mCardBoardViewWidth/2.0f) - 72.0f;
         } else {
-            return 0;
+            return 0.0f;
         }
     }
 }

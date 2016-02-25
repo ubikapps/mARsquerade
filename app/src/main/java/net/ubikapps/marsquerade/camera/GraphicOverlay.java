@@ -50,6 +50,7 @@ public class GraphicOverlay extends View {
     private float mHeightScaleFactor = 1.0f;
     private int mFacing = CameraSource.CAMERA_FACING_BACK;
     private Set<Graphic> mGraphics = new HashSet<>();
+    private boolean mForCardboard = false;
 
     /**
      * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass
@@ -58,6 +59,7 @@ public class GraphicOverlay extends View {
      */
     public static abstract class Graphic {
         private GraphicOverlay mOverlay;
+
 
         public Graphic(GraphicOverlay overlay) {
             mOverlay = overlay;
@@ -173,7 +175,11 @@ public class GraphicOverlay extends View {
 
         synchronized (mLock) {
             if ((mPreviewWidth != 0) && (mPreviewHeight != 0)) {
-                mWidthScaleFactor = (float) canvas.getWidth() / (float) mPreviewWidth / 2.0f;
+                if(mForCardboard) {
+                    mWidthScaleFactor = (float) canvas.getWidth() / (float) mPreviewWidth / 2.0f;
+                } else {
+                    mWidthScaleFactor = (float) canvas.getWidth() / (float) mPreviewWidth;
+                }
                 mHeightScaleFactor = (float) canvas.getHeight() / (float) mPreviewHeight;
             }
 
@@ -181,5 +187,9 @@ public class GraphicOverlay extends View {
                 graphic.draw(canvas);
             }
         }
+    }
+
+    public void setForCardboard(boolean forCardboard){
+        mForCardboard = forCardboard;
     }
 }
