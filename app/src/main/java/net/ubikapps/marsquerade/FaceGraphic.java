@@ -56,8 +56,6 @@ class FaceGraphic extends GraphicOverlay.Graphic {
         super(overlay);
         mEyeType = eyeType;
         mCardBoardViewWidth = cardBoardViewWidth;
-        Resources resources =  context.getResources();
-
         setupBitmaps(context);
     }
 

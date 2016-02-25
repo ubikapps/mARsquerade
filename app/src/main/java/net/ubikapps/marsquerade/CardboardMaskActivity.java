@@ -262,6 +262,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
         setContentView(R.layout.cardboard);
         mCardboardView = (CardboardView) findViewById(R.id.cardboard_view);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
+        mGraphicOverlay.setForCardboard(true);
         //createEyeDialog();
         mCardboardView.setRestoreGLStateEnabled(false);
         mCardboardView.setSettingsButtonEnabled(false);
@@ -344,10 +345,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
 
                 Size size = mCameraSource.getPreviewSize();
                 //Log.d(TAG, "Preview size: " + size.getWidth() + ", " + size.getHeight());
-                int min = Math.min(size.getWidth(), size.getHeight());
-                int max = Math.max(size.getWidth(), size.getHeight());
-                Log.d(TAG, "Overlay size: " + min + ", " + max);
-                mGraphicOverlay.setCameraInfo(min, max, mCameraSource.getCameraFacing());
+                mGraphicOverlay.setCameraInfo(size.getWidth(), size.getHeight(), mCameraSource.getCameraFacing());
                 mGraphicOverlay.clear();
                 if(mFlashEnabled) {
                     mCameraSource.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
