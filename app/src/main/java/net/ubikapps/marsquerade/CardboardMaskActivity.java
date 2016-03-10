@@ -11,13 +11,11 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -26,7 +24,6 @@ import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.google.vrtoolkit.cardboard.CardboardDeviceParams;
 import com.google.vrtoolkit.cardboard.CardboardView;
 import com.google.vrtoolkit.cardboard.Eye;
@@ -35,59 +32,27 @@ import com.google.vrtoolkit.cardboard.Viewport;
 
 import net.ubikapps.marsquerade.camera.CameraSource;
 import net.ubikapps.marsquerade.camera.GraphicOverlay;
+import net.ubikapps.marsquerade.camera.PictureCallbackImpl;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.CardboardActivity implements CardboardView.StereoRenderer, OnFrameAvailableListener {
+public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.CardboardActivity implements CardboardView.StereoRenderer, OnFrameAvailableListener, CameraActivity {
 
     private static final String TAG = "CardboardMaskActivity";
     private static final int GL_TEXTURE_EXTERNAL_OES = 0x8D65;
     private static final int PREVIEW_HEIGHT_PERCENT = 84;
     private CameraSource mCameraSource;
     private GraphicOverlay mGraphicOverlay;
-    private static final int RC_HANDLE_GMS = 9001;
     private boolean mFlashEnabled = false;
     private boolean mSurfaceCreated = false;
-    private CameraSource.PictureCallback mPictureCallback = new CameraSource.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data) {
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                    .format(new Date());
-            File mediaStorageDir = new File(
-                    Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                    "mArsquerade");
-            mediaStorageDir.mkdirs();
-
-            String fname = "IMG_" + timeStamp + ".jpg";
-            File file = new File(mediaStorageDir.getPath(), fname);
-            Log.d(TAG, "Saving pic to: " + file.getAbsolutePath());
-            if (file.exists()) file.delete();
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(data);
-                fos.close();
-                Toast.makeText(getApplicationContext(), "New Image saved:" + file,
-                        Toast.LENGTH_LONG).show();
-
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-                e.printStackTrace();
-            }
-            restartCameraSource();
-        }
-    };
+    private PictureCallbackImpl mPictureCallback;
 
     private final String vertexShaderCode =
             "attribute vec4 position;" +
@@ -177,7 +142,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
         return textureArr[0];
     }
 
-    private void createCameraSource() {
+    public void createCameraSource() {
 
         Context context = getApplicationContext();
         FaceDetector detector = new FaceDetector.Builder(context)
@@ -260,6 +225,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cardboard);
+        mPictureCallback = new PictureCallbackImpl(getApplicationContext(), this);
         mCardboardView = (CardboardView) findViewById(R.id.cardboard_view);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         mGraphicOverlay.setForCardboard(true);
@@ -316,7 +282,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
      * (e.g., because onResume was called before the camera source was created), this will be called
      * again when the camera source is created.
      */
-    private void startCameraSource() {
+    public void startCameraSource() {
         mSurfaceTexture = new SurfaceTexture(mTexture);
 
         mSurfaceTexture.setOnFrameAvailableListener(this);
@@ -361,7 +327,7 @@ public class CardboardMaskActivity extends com.google.vrtoolkit.cardboard.Cardbo
         }
     }
 
-    private void restartCameraSource(){
+    public void restartCameraSource(){
         if(mCameraSource != null){
             mCameraSource.stop();
             mCameraSource.release();

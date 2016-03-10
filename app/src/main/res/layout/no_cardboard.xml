@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/topLayout"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-  <net.ubikapps.marsquerade.camera.CameraSourcePreview
-      android:id="@+id/preview"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+    <net.ubikapps.marsquerade.camera.CameraSourcePreview
+        android:id="@+id/preview"
+        android:layout_width="520dp"
+        android:layout_height="match_parent">
 
-    <net.ubikapps.marsquerade.camera.GraphicOverlay
-        android:id="@+id/faceOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-  </net.ubikapps.marsquerade.camera.CameraSourcePreview>
-
+        <net.ubikapps.marsquerade.camera.GraphicOverlay
+            android:id="@+id/faceOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </net.ubikapps.marsquerade.camera.CameraSourcePreview>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_toEndOf="@+id/preview"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_alignParentRight="true">
+        <ImageButton
+            android:layout_width="@dimen/cam_button_width"
+            android:layout_height="@dimen/cam_button_width"
+            android:id="@+id/camButton"
+            android:src="@drawable/cam_button_selector"
+            android:gravity="center"
+            android:background="@null"
+            android:onClick="takePic"/>
 </LinearLayout>
+</RelativeLayout>

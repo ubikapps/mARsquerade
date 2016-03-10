@@ -40,6 +40,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 import net.ubikapps.marsquerade.camera.CameraSource;
 import net.ubikapps.marsquerade.camera.CameraSourcePreview;
 import net.ubikapps.marsquerade.camera.GraphicOverlay;
+import net.ubikapps.marsquerade.camera.PictureCallbackImpl;
 
 import java.io.IOException;
 
@@ -47,15 +48,13 @@ import java.io.IOException;
  * Activity for the face tracker app.  This app detects faces with the rear facing camera, and draws
  * overlay graphics to indicate the position, size, and ID of each face.
  */
-public final class NoCardboardActivity extends AppCompatActivity {
+public final class NoCardboardActivity extends AppCompatActivity implements CameraActivity{
     private static final String TAG = "NoCardboardActivity";
 
-    private CameraSource mCameraSource = null;
-
     private CameraSourcePreview mPreview;
+    private CameraSource mCameraSource;
     private GraphicOverlay mGraphicOverlay;
-
-    private static final int RC_HANDLE_GMS = 9001;
+    private PictureCallbackImpl mPictureCallback;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
 
@@ -70,7 +69,7 @@ public final class NoCardboardActivity extends AppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.no_cardboard);
-
+        mPictureCallback = new PictureCallbackImpl(getApplicationContext(), this);
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         mGraphicOverlay.setForCardboard(false);
@@ -116,12 +115,18 @@ public final class NoCardboardActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void restartCameraSource() {
+
+    }
+
     /**
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the barcode detector to detect small barcodes
      * at long distances.
      */
-    private void createCameraSource() {
+    @Override
+    public void createCameraSource() {
 
         Context context = getApplicationContext();
         FaceDetector detector = new FaceDetector.Builder(context)
@@ -143,9 +148,9 @@ public final class NoCardboardActivity extends AppCompatActivity {
             // download completes on device.
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
-
+        Log.d(TAG, "mPreview size: " + mPreview.getLayoutParams().width + ", " + getWindow().getWindowManager().getDefaultDisplay().getWidth());
         mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(mPreview.getLayoutParams().width, getWindow().getWindowManager().getDefaultDisplay().getWidth())
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
                 .setRequestedFps(30.0f)
@@ -239,7 +244,7 @@ public final class NoCardboardActivity extends AppCompatActivity {
      * (e.g., because onResume was called before the camera source was created), this will be called
      * again when the camera source is created.
      */
-    private void startCameraSource() {
+    public void startCameraSource() {
 
         // check that the device has play services available.
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
@@ -258,6 +263,13 @@ public final class NoCardboardActivity extends AppCompatActivity {
                 mCameraSource.release();
                 mCameraSource = null;
             }
+        }
+    }
+
+    @Override
+    public void takePic(View view) {
+        if (mCameraSource != null) {
+            mCameraSource.takePicture(null, mPictureCallback);
         }
     }
 
