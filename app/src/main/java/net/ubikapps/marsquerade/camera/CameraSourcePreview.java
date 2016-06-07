@@ -139,11 +139,13 @@ public class CameraSourcePreview extends ViewGroup {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int width = 320;
         int height = 240;
+        Log.d(TAG, "View size: " + getWidth() + ", " + getHeight());
         if (mCameraSource != null) {
             Size size = mCameraSource.getPreviewSize();
             if (size != null) {
                 width = size.getWidth();
                 height = size.getHeight();
+                Log.d(TAG, "Preview size: " + width + ", " + height);
             }
         }
 
@@ -168,7 +170,7 @@ public class CameraSourcePreview extends ViewGroup {
         }
 
         for (int i = 0; i < getChildCount(); ++i) {
-            getChildAt(i).layout(0, 0, childWidth, childHeight);
+            getChildAt(i).layout(0, Math.round((getHeight() - height)/2), childWidth, childHeight);
         }
 
         try {
