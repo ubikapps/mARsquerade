@@ -9,7 +9,9 @@
     <net.ubikapps.marsquerade.camera.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="520dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        >
 
         <net.ubikapps.marsquerade.camera.GraphicOverlay
             android:id="@+id/faceOverlay"
