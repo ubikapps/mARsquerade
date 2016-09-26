@@ -148,9 +148,9 @@ public final class NoCardboardActivity extends AppCompatActivity implements Came
             // download completes on device.
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
-        Log.d(TAG, "mPreview size: " + mPreview.getLayoutParams().width + ", " + getWindow().getWindowManager().getDefaultDisplay().getWidth());
+        Log.d(TAG, "mPreview size: " + mPreview.getLayoutParams().width + ", " + getWindow().getWindowManager().getDefaultDisplay().getHeight());
         mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(mPreview.getLayoutParams().width, getWindow().getWindowManager().getDefaultDisplay().getWidth())
+                .setRequestedPreviewSize(mPreview.getLayoutParams().width, getWindow().getWindowManager().getDefaultDisplay().getHeight())
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
                 .setRequestedFps(30.0f)

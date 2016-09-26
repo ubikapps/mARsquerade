@@ -33,7 +33,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.Detector;
@@ -773,6 +772,7 @@ public class CameraSource {
         }
         Size pictureSize = sizePair.pictureSize();
         mPreviewSize = sizePair.previewSize();
+        Log.d(TAG, "Selected preview size: " + mPreviewSize.getWidth() + ", " + mPreviewSize.getHeight());
         if(mPreviewSize.getWidth() != mPreviewSize.getHeight()){
             Log.w(TAG, mContext.getString(R.string.non_square_preview_error));
         }
